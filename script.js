@@ -74,10 +74,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         if (
-            email.value.trim() === "" ||
-            !email.value.includes("@") ||
-            !email.value.includes(".")
+            email.value.trim() === "" || !emailPattern.test(email.value)
         ) {
             emailError.textContent = "Enter a valid email address";
             emailError.style.display = "block";
@@ -127,28 +127,32 @@ document.addEventListener("DOMContentLoaded", function () {
 const tiles = document.querySelectorAll(".thumb");
 const captionEl = document.getElementById("image-caption");
 
-function selectTile(tile) {
-    // Remove expanded from all
-    tiles.forEach((t) => t.classList.remove("expanded"));
-
-    // Add to selected tile
-    tile.classList.add("expanded");
-
-    // Update caption using data-city
-    const cityName = tile.dataset.city;
-    captionEl.textContent = "You selected: " + cityName;
-}
-
-tiles.forEach((tile) => {
-    // Mouse click support
+tiles.forEach(function (tile) {
     tile.addEventListener("click", function () {
-        selectTile(this);
+        for (let i = 0; i < tiles.length; i++) {
+            if (tiles[i] === this) { // selected file
+                tiles[i].classList.add("expanded");
+                const cityName = tiles[i].dataset.city;
+                captionEl.textContent = "You selected: " + cityName;
+            } else {
+                tiles[i].classList.remove("expanded");
+            }
+        }
     });
 
     // Keyboard support (Enter key)
     tile.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
-            selectTile(this);
+            for (let i = 0; i < tiles.length; i++) {
+                if (tiles[i] === this) {
+                    tiles[i].classList.add("expanded");
+
+                    const cityName = tiles[i].dataset.city;
+                    captionEl.textContent = "You selected: " + cityName;
+                } else {
+                    tiles[i].classList.remove("expanded");
+                }
+            }
         }
     });
 });
