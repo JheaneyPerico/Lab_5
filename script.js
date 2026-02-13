@@ -75,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Email validation
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
         if (
             email.value.trim() === "" || !emailPattern.test(email.value)
         ) {
@@ -118,8 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Registration successful!");
             form.reset();
         }
-
-
     });
 });
 
